@@ -1,20 +1,22 @@
-// =========================
-// MOBILE MENU
-// =========================
+```javascript
+/* =========================================
+   MOBILE MENU
+========================================= */
 
-const menuBtn = document.querySelector(".menu-btn");
-const navLinks = document.querySelector(".nav-links");
+const menuBtn = document.getElementById("menuBtn");
+const navLinks = document.getElementById("navLinks");
 
 menuBtn.addEventListener("click", function () {
 
-    navLinks.classList.toggle("active");
+    navLinks.classList.toggle("show");
 
 });
 
 
-// =========================
-// CLOSE MENU AFTER CLICK
-// =========================
+/* =========================================
+   CLOSE MOBILE MENU
+   WHEN A LINK IS CLICKED
+========================================= */
 
 const navItems = document.querySelectorAll(".nav-links a");
 
@@ -22,49 +24,60 @@ navItems.forEach(function (item) {
 
     item.addEventListener("click", function () {
 
-        navLinks.classList.remove("active");
+        navLinks.classList.remove("show");
 
     });
 
 });
 
 
-// =========================
-// ACTIVE NAVIGATION
-// =========================
+/* =========================================
+   CONTACT FORM
+========================================= */
 
-const sections = document.querySelectorAll("section");
-const links = document.querySelectorAll(".nav-links a");
+const contactForm = document.getElementById("contactForm");
+
+contactForm.addEventListener("submit", function (event) {
+
+    event.preventDefault();
+
+    alert("Thank you! Your message has been received.");
+
+    contactForm.reset();
+
+});
+
+
+/* =========================================
+   NAVBAR SCROLL EFFECT
+========================================= */
+
+const header = document.querySelector("header");
 
 window.addEventListener("scroll", function () {
 
-    let currentSection = "";
+    if (window.scrollY > 50) {
 
-    sections.forEach(function (section) {
+        header.style.background = "rgba(5, 5, 5, 0.98)";
 
-        const sectionTop = section.offsetTop - 150;
+    } else {
 
-        if (window.scrollY >= sectionTop) {
+        header.style.background = "rgba(8, 8, 8, 0.95)";
 
-            currentSection = section.getAttribute("id");
-
-        }
-
-    });
-
-    links.forEach(function (link) {
-
-        link.classList.remove("active");
-
-        if (
-            link.getAttribute("href") ===
-            "#" + currentSection
-        ) {
-
-            link.classList.add("active");
-
-        }
-
-    });
+    }
 
 });
+
+
+/* =========================================
+   REVEAL SECTIONS ON SCROLL
+========================================= */
+
+const sections = document.querySelectorAll(".section");
+
+const observer = new IntersectionObserver(
+
+    function (entries) {
+
+        entries.
+```
