@@ -1,83 +1,97 @@
 
-/* =========================================
-   MOBILE MENU
-========================================= */
+// MOBILE NAVIGATION
+const menuToggle = document.getElementById("menu-toggle");
+const navLinks = document.getElementById("nav-links");
 
-const menuBtn = document.getElementById("menuBtn");
-const navLinks = document.getElementById("navLinks");
+menuToggle.addEventListener("click", () => {
+    const isOpen = navLinks.classList.toggle("open");
 
-menuBtn.addEventListener("click", function () {
-
-    navLinks.classList.toggle("show");
-
+    menuToggle.setAttribute("aria-expanded", isOpen);
+    menuToggle.textContent = isOpen ? "✕" : "☰";
 });
 
-
-/* =========================================
-   CLOSE MOBILE MENU
-   WHEN A LINK IS CLICKED
-========================================= */
-
-const navItems = document.querySelectorAll(".nav-links a");
-
-navItems.forEach(function (item) {
-
-    item.addEventListener("click", function () {
-
-        navLinks.classList.remove("show");
-
+document.querySelectorAll(".nav-links a").forEach(link => {
+    link.addEventListener("click", () => {
+        navLinks.classList.remove("open");
+        menuToggle.setAttribute("aria-expanded", "false");
+        menuToggle.textContent = "☰";
     });
-
 });
 
+// TYPING ANIMATION
+const typingElement = document.getElementById("typing");
 
-/* =========================================
-   CONTACT FORM
-========================================= */
+const roles = [
+    "Web Developer",
+    "IT Student",
+    "Creative Thinker",
+    "Tech Enthusiast"
+];
 
-const contactForm = document.getElementById("contactForm");
+let roleIndex = 0;
+let characterIndex = 0;
+let deleting = false;
 
-contactForm.addEventListener("submit", function (event) {
+function typeEffect() {
+    const currentRole = roles[roleIndex];
 
-    event.preventDefault();
-
-    alert("Thank you! Your message has been received.");
-
-    contactForm.reset();
-
-});
-
-
-/* =========================================
-   NAVBAR SCROLL EFFECT
-========================================= */
-
-const header = document.querySelector("header");
-
-window.addEventListener("scroll", function () {
-
-    if (window.scrollY > 50) {
-
-        header.style.background = "rgba(5, 5, 5, 0.98)";
-
+    if (deleting) {
+        characterIndex--;
     } else {
-
-        header.style.background = "rgba(8, 8, 8, 0.95)";
-
+        characterIndex++;
     }
 
+    typingElement.textContent =
+        currentRole.substring(0, characterIndex);
+
+    let delay = deleting ? 45 : 90;
+
+    if (!deleting && characterIndex === currentRole.length) {
+        deleting = true;
+        delay = 1200;
+    } else if (deleting && characterIndex === 0) {
+        deleting = false;
+        roleIndex = (roleIndex + 1) % roles.length;
+        delay = 350;
+    }
+
+    setTimeout(typeEffect, delay);
+}
+
+typeEffect();
+
+// CONTACT FORM
+const contactForm = document.getElementById("contact-form");
+const formStatus = document.getElementById("form-status");
+
+contactForm.addEventListener("submit", function(event) {
+    event.preventDefault();
+
+    const name = document.getElementById("name").value.trim();
+    const email = document.getElementById("email").value.trim();
+    const message = document.getElementById("message").value.trim();
+
+    if (!name || !email || !message) {
+        formStatus.textContent = "Please complete all fields.";
+        return;
+    }
+
+    // Replace with your real email address.
+    const recipient = "yourname@gmail.com";
+
+    const subject = encodeURIComponent(
+        "Portfolio message from " + name
+    );
+
+    const body = encodeURIComponent(
+        "Name: " + name +
+        "\nEmail: " + email +
+        "\n\nMessage:\n" + message
+    );
+
+    formStatus.textContent =
+        "Opening your email app. Please send the message there.";
+
+    window.location.href =
+        `mailto:${recipient}?subject=${subject}&body=${body}`;
 });
-
-
-/* =========================================
-   REVEAL SECTIONS ON SCROLL
-========================================= */
-
-const sections = document.querySelectorAll(".section");
-
-const observer = new IntersectionObserver(
-
-    function (entries) {
-
-        entries.
-```
